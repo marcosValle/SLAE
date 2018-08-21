@@ -1,3 +1,4 @@
+# Assignment #2: Reverse Shell TCP
 > This blog post has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification:
 > http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/
 > Student ID: SLAE-1228
@@ -9,7 +10,7 @@ The image below was taken from [here](https://zake7749.github.io/2015/03/17/Sock
 
 ![TCP communication workflow](http://i.imgur.com/cqr4O2P.png)
 
-# socket()
+## socket()
 According to the book:
 
 ```
@@ -22,7 +23,7 @@ That said, the first thing we need in order to do a bind a shell is opening a so
 
 The *protocolFamily* parameter should be *AF_INET*, the family protocol for internet communication (PF_INET means the same). The *type* parameter defines the communication semantics, if the communication is reliable or best-effort for instance. SOCK_STREAM corresponds to the first case. Since the only protocol we are interested is TCP, we can pass 0 to the third parameter *protocol*.
 
-# connect()
+## connect()
 Now that we have opened a socket, let us write code that acctually uses it to start a connection using *connect()*.
 
     int connect(int socket, struct sockaddr *foreignAddress, unsigned int addressLength) 
@@ -39,7 +40,7 @@ struct sockaddr_in {
 ```
 The *addressLength* is the length of the address structure, so *sizeof(struct sockaddr_in)*
 
-# dup2()
+## dup2()
 Now we already have an established TCP connection we need to generate a new shell and send it through our socket. We can use *dup2()* in order to accomplish it. According to the [man page](https://linux.die.net/man/2/dup2):
 
 ```
@@ -64,7 +65,7 @@ Therefore:
 
     execve("/bin/sh", 0, 0);
 
-# Working TCP client
+## Working TCP client
 In order to create the simplest client possible, we cut all the error corrections. This is for **educational purposes only** and should NEVER be used in production.
 
 ```
@@ -109,7 +110,7 @@ ls
 <directory listing here>
 ```
 
-# Disassembling the ELF
+## Disassembling the ELF
 
 Now lets check the result:
 
@@ -196,7 +197,7 @@ Piping this into *wc -c* shows how many bytes this shellcode has:
 
     3463
 
-# Handcrafted shellcode
+## Handcrafted shellcode
 
 My idea here is not to generate a small shellcode, but a comprehensible one.
 
@@ -363,7 +364,7 @@ The rest of the code was simple:
  int 0x80
 ```
 
-# Testing the shellcode
+## Testing the shellcode
 
 Extracting the opcodes:
 
