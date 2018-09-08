@@ -1,3 +1,5 @@
+> This repository has been created for completing the requirements of the SecurityTube Linux Assembly Expert certification: http://securitytube-training.com/online-courses/securitytube-linux-assembly-expert/ Student ID: SLAE-1228
+
 # SLAE32 course review
 **TL;DR**: [SLAE32 course](http://www.securitytube-training.com/online-courses/securitytube-linux-assembly-expert/index.html) is great and you should do it if you are a beginner/intermediate. A little bit outdated but still absolutely valid. A piece of art for the price charged.
 

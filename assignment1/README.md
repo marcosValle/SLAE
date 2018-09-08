@@ -4,9 +4,9 @@
 > Student ID: SLAE-1228
 
 
-Since I first accomplished Assignment 2 (Reverse Shell TCP) instead of Assignment 1, all the networking and programming related topics had already been reviewd.
+Since I first accomplished Assignment 2 (Reverse Shell TCP) instead of Assignment 1, all the networking and programming related topics had already been reviwed.
 
-Indeed, both assignments are very simmilar. Most of the differences are concerned to the envolved functions. While in a Reverse Shell we basically built a TCP client socket, in a Bind Shell we will work on something like a server.
+Indeed, both assignments are very simmilar. Most of the differences are concerned to the involved functions. While in a Reverse Shell we have basically built a TCP client socket, in a Bind Shell we will work on something like a server.
 
 ## listen()
 After creating the socket and binding it to a port, we will now have it listening instead of actively connecting.
